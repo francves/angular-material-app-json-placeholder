@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-material';
+  api:string;
+  myData:Array<any>;
+  constructor(private http: Http){
+    this.api = 'https://jsonplaceholder.typicode.com/photos';
+    this.http.get(this.api)
+      .pipe(
+        map(response => response.json())
+        )
+        .subscribe(res => this.myData = res);
+  }
 }
